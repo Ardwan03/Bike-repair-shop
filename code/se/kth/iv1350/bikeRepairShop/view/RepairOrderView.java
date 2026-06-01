@@ -1,18 +1,17 @@
 package se.kth.iv1350.bikeRepairShop.view;
 
 import se.kth.iv1350.bikeRepairShop.model.dto.RepairOrderDTO;
-import se.kth.iv1350.bikeRepairShop.model.observer.RepairOrderObserver;
+import se.kth.iv1350.bikeRepairShop.model.observer.RepairOrderObserverTemplate;
 
 /**
  * Prints repair order updates to System.out.
  */
-public class RepairOrderView implements RepairOrderObserver{
+public class RepairOrderView extends RepairOrderObserverTemplate{
 
-    /**
-     * Prints updated repair order information.
-     * @param repairOrderDTO the updated repair order.
-     */
-    public void newRepairOrderUpdate(RepairOrderDTO repairOrderDTO) {
+    @Override
+    protected void doHandleRepairOrderUpdate() throws Exception {
+        RepairOrderDTO repairOrderDTO = getRepairOrderDTO();
+
         System.out.println();
         System.out.println("REPAIR ORDER UPDATE");
         System.out.println("Description: " + repairOrderDTO.getDescription());
@@ -22,5 +21,10 @@ public class RepairOrderView implements RepairOrderObserver{
         System.out.println("State: " + repairOrderDTO.getState());
         System.out.println("Estimated Completion: " + repairOrderDTO.getEstimatedCompletion());
         System.out.println();
+    }
+
+    @Override
+    protected void handleErrors(Exception e) {
+        System.out.println("View Error: Could not display repair order update. " + e.getMessage());
     }
 }
